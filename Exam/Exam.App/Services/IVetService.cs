@@ -1,8 +1,11 @@
 using Exam.App.Domain;
+using Exam.App.Services.Dtos;
 
 namespace Exam.App.Services;
 
 public interface IVetService
 {
-    Task<Vet?> FindVetById(int id);
+    Task<VetDetailsPreviewDto?> FindVetById(int id);
+    Task<List<VetPreviewDto>> FindAll();
+    Task<VetDetailsPreviewDto?> FindByUsername(string username);
 }

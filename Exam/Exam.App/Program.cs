@@ -30,6 +30,10 @@ builder.Services.AddScoped<IOwnerService, OwnerService>();
 builder.Services.AddScoped<IOwnerRepository, OwnerRepository>();
 builder.Services.AddScoped<IVetService, VetService>();
 builder.Services.AddScoped<IVetRepository, VetRepository>();
+builder.Services.AddScoped<IExaminationService, ExaminationService>();
+builder.Services.AddScoped<IExaminationRepository, ExaminationRepository>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
 var app = builder.Build();
 

@@ -29,6 +29,24 @@ namespace Exam.App.Services.Mappers
                 .ForMember(dest => dest.Pets, opt => opt.MapFrom(src => src.Pets.Select(p => p.Name)));
 
             CreateMap<Patient, UpdatePatientDto>().ReverseMap();
+
+            CreateMap<Vet, VetPreviewDto>()
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.Name + " " + src.User.Surname));
+
+            CreateMap<Examination, ExaminationPreviewDto>()
+                .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.Patient.Name))
+                .ForMember(dest => dest.AnimalSpecie, opt => opt.MapFrom(src => src.Patient.AnimalSpecies.Name))
+                .ForMember(dest => dest.Age, opt => opt.MapFrom(src => DateTime.Now.Year - src.Patient.DateOfBirth.Year))
+                .ForMember(dest => dest.VetName, opt => opt.MapFrom(src => src.Vet.User.Name + " " + src.Vet.User
+                    .Surname))
+                .ForMember(dest => dest.Status, opt =>opt.MapFrom(src => src.Status.ToString()));
+
+            CreateMap<Vet, VetDetailsPreviewDto>()
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.Name + " " + src.User.Surname))
+                .ForMember(dest => dest.Examinations, opt => opt.MapFrom(src => src.Examinations));
+
+            CreateMap<ExamReport, CreateReportDto>().ReverseMap();
+            CreateMap<ExamReport, UpdateReportDto>().ReverseMap();
         }
     }
 }

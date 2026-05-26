@@ -8,6 +8,7 @@ public class Patient
     public DateTime DateOfBirth { get; set; }
     public int OwnerId { get; set; }
     public int? VetId { get; set; }
+    public List<Examination> Examinations { get; set; }
     public AnimalSpecies AnimalSpecies { get; set; }
     public Owner Owner { get; set; }
     public Vet? Vet { get; set; }

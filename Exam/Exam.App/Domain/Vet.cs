@@ -6,4 +6,5 @@ public class Vet
     public string UserId { get; set; }
     public ApplicationUser User { get; set; }
     public List<Patient> Patients { get; set; } = [];
+    public List<Examination> Examinations { get; set; } = [];
 }

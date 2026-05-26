@@ -15,8 +15,33 @@ public class VetRepository : IVetRepository
 
     public async Task<Vet?> GetVetById(int id)
     {
-        return _context.Vets
+        return await _context.Vets
             .Include(v => v.User)
-            .FirstOrDefault(vet => vet.Id == id);
+            .Include(v => v.Patients)
+            .Include(v => v.Examinations)
+            .ThenInclude(e => e.Patient)
+            .ThenInclude(p => p.AnimalSpecies)
+            .FirstOrDefaultAsync(vet => vet.Id == id);
+    }
+
+    public async Task<List<Vet>> GetAll()
+    {
+        return await _context.Vets
+            .Include(v => v.User)
+            .Include(v => v.Patients)
+            .Include(v => v.Examinations)
+            .ThenInclude(e => e.Patient)
+            .ToListAsync();
+    }
+
+    public async Task<Vet?> GetByUsername(string username)
+    {
+        return await _context.Vets
+            .Include(v => v.User)
+            .Include(v => v.Patients)
+            .Include(v => v.Examinations)
+            .ThenInclude(e => e.Patient)
+            .ThenInclude(p => p.AnimalSpecies)
+            .FirstOrDefaultAsync(vet => vet.User.UserName == username);
     }
 }

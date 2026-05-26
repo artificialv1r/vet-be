@@ -1,19 +1,36 @@
+using AutoMapper;
 using Exam.App.Domain;
 using Exam.App.Domain.Repositories;
+using Exam.App.Services.Dtos;
 
 namespace Exam.App.Services;
 
 public class VetService : IVetService
 {
     private readonly IVetRepository _vetRepository;
+    private readonly IMapper _mapper;
     
-    public VetService(IVetRepository vetRepository)
+    public VetService(IVetRepository vetRepository,  IMapper mapper)
     {
         _vetRepository = vetRepository;
+        _mapper = mapper;
     }
 
-    public async Task<Vet?> FindVetById(int id)
+    public async Task<VetDetailsPreviewDto?> FindVetById(int id)
     {
-        return await _vetRepository.GetVetById(id);
+        var vet = await _vetRepository.GetVetById(id);
+        return _mapper.Map<VetDetailsPreviewDto>(vet);
+    }
+
+    public async Task<List<VetPreviewDto>> FindAll()
+    {
+        var vets = await _vetRepository.GetAll();
+        return _mapper.Map<List<VetPreviewDto>>(vets);
+    }
+
+    public async Task<VetDetailsPreviewDto?> FindByUsername(string username)
+    {
+        var vet = await _vetRepository.GetByUsername(username);
+        return _mapper.Map<VetDetailsPreviewDto>(vet);
     }
 }

@@ -8,12 +8,13 @@ namespace Exam.App.Infrastructure.Database;
 public class AppDbContext : IdentityDbContext<ApplicationUser>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-    
     public DbSet<AnimalSpecies> AnimalSpecies { get; set; }
     public DbSet<Vet> Vets { get; set; }
     public DbSet<Owner> Owners { get; set; }
     public DbSet<Patient> Patients { get; set; }
     public DbSet<Assistant> Assistants { get; set; }
+    public DbSet<Examination> Examinations { get; set; }
+    public DbSet<ExamReport> ExamReports { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -38,6 +39,12 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         modelBuilder.Entity<Vet>()
             .HasIndex(v => v.UserId)
             .IsUnique();
+
+        modelBuilder.Entity<Vet>()
+            .HasMany(v => v.Examinations)
+            .WithOne(e => e.Vet)
+            .HasForeignKey(e => e.VetId)
+            .OnDelete(DeleteBehavior.Restrict);
         
         modelBuilder.Entity<Assistant>()
             .HasOne(a => a.User)
@@ -66,6 +73,18 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(p => p.AnimalSpecies)
             .WithMany()
             .HasForeignKey(p => p.AnimalSpeciesId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        modelBuilder.Entity<Patient>()
+            .HasMany(p => p.Examinations)
+            .WithOne(e => e.Patient)
+            .HasForeignKey(e => e.PatientId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        modelBuilder.Entity<Examination>()
+            .HasOne(e => e.Report)
+            .WithOne(er => er.Examination)
+            .HasForeignKey<ExamReport>(e => e.ExaminationId)
             .OnDelete(DeleteBehavior.Restrict);
         
         // Seed Roles
