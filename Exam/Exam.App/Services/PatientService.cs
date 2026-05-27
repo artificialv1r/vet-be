@@ -35,6 +35,17 @@ public class PatientService : IPatientService
         return new PaginatedList<PatientPreviewDto>(dtos, patients.Count, patients.PageIndex, pageSize);
     }
 
+    public async Task<PatientPreviewDto> Get(int patientId)
+    {
+        var patient = await _patientRepository.GetPatientById(patientId);
+        if (patient == null)
+        {
+            throw new NotFoundException(patientId);
+        }
+
+        return _mapper.Map<PatientPreviewDto>(patient);
+    }
+
     public async Task<CreatePatientDto> CreateNewPatient(CreatePatientDto dto)
     {
         var owner = await _ownerService.FindByUsernameAsync(dto.OwnerUsername);
@@ -114,6 +125,11 @@ public class PatientService : IPatientService
         if (patient == null)
         {
             throw new NotFoundException(id);
+        }
+
+        if (patient.Examinations.Any())
+        {
+            throw new InvalidOperationException("Patient cannot be deleted because examinations exist.");
         }
         
         return await _patientRepository.DeletePatient(patient);

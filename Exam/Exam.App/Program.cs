@@ -34,7 +34,8 @@ builder.Services.AddScoped<IExaminationService, ExaminationService>();
 builder.Services.AddScoped<IExaminationRepository, ExaminationRepository>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
-
+builder.Services.AddScoped<IAnimalSpeciesService, AnimalSpeciesService>();
+builder.Services.AddScoped<IAnimalSpeciesRepository, AnimalSpeciesRepository>();
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

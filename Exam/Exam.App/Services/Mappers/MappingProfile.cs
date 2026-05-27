@@ -11,6 +11,7 @@ namespace Exam.App.Services.Mappers
             CreateMap<ApplicationUser, ProfileDto>();
             
             CreateMap<Patient, PatientPreviewDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(
                     dest => dest.AnimalSpecies,
                     opt => opt.MapFrom(src => src.AnimalSpecies.Name))
@@ -22,7 +23,9 @@ namespace Exam.App.Services.Mappers
                     opt => opt.MapFrom(src => src.Vet.User.Name + " " + src.Vet.User.Surname))
                 .ForMember(
                     dest => dest.Owner,
-                    opt => opt.MapFrom(src => src.Owner.User.Name + " " + src.Owner.User.Surname));
+                    opt => opt.MapFrom(src => src.Owner.User.Name + " " + src.Owner.User.Surname))
+                .ForMember(dest => dest.OwnerUsername, opt => opt.MapFrom(src => src.Owner.User.UserName))
+                .ForMember(dest => dest.AnimalSpeciesId, opt => opt.MapFrom(src => src.AnimalSpeciesId));
 
             CreateMap<Owner, OwnerPreviewDto>()
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.Name + " " + src.User.Surname))
@@ -31,6 +34,7 @@ namespace Exam.App.Services.Mappers
             CreateMap<Patient, UpdatePatientDto>().ReverseMap();
 
             CreateMap<Vet, VetPreviewDto>()
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.User.Name))
                 .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.Name + " " + src.User.Surname));
 
             CreateMap<Examination, ExaminationPreviewDto>()

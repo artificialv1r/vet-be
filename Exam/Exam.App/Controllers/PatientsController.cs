@@ -29,6 +29,12 @@ public class PatientsController : ControllerBase
         
         return Ok(await _patientService.GetFilteredPatients(page, query));
     }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<PatientPreviewDto>> GetPatient(int id)
+    {
+        return Ok(await _patientService.Get(id));
+    }
     
     [Authorize(Roles = "Vet, Assistant")]
     [HttpPost]
@@ -59,14 +65,9 @@ public class PatientsController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeletePatient(int id)
     {
-        try
-        {
+       
             await _patientService.DeletePatient(id);
             return NoContent();
-        }
-        catch
-        {
-            throw new NotFoundException(id);
-        }
+        
     }
 }

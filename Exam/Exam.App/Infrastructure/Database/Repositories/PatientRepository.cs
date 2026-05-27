@@ -29,8 +29,11 @@ public class PatientRepository : IPatientRepository
     public async Task<Patient?> GetPatientById(int id)
     {
         return await _context.Patients
+            .Include(p => p.AnimalSpecies)
             .Include(p => p.Owner)
+            .ThenInclude(o => o.User)
             .Include(p => p.Vet)
+            .ThenInclude(v => v.User)
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 
@@ -49,7 +52,7 @@ public class PatientRepository : IPatientRepository
     public async Task<bool> DeletePatient(Patient patient)
     {
         _context.Patients.Remove(patient);
-        _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
         return true;
     }
 
