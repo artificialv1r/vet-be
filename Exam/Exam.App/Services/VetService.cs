@@ -2,6 +2,7 @@ using AutoMapper;
 using Exam.App.Domain;
 using Exam.App.Domain.Repositories;
 using Exam.App.Services.Dtos;
+using Exam.App.Services.Exceptions;
 
 namespace Exam.App.Services;
 
@@ -31,6 +32,10 @@ public class VetService : IVetService
     public async Task<VetDetailsPreviewDto?> FindByUsername(string username)
     {
         var vet = await _vetRepository.GetByUsername(username);
+        if (vet == null)
+        {
+            throw new UserNotFoundException(username);
+        }
         return _mapper.Map<VetDetailsPreviewDto>(vet);
     }
 }

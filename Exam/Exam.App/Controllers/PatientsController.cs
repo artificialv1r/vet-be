@@ -18,6 +18,13 @@ public class PatientsController : ControllerBase
         _patientService = patientService;
     }
 
+    [Authorize]
+    [HttpGet]
+    public async Task<ActionResult<List<PatientPreviewDto>>> FetchAllPatients()
+    {
+        return Ok(await _patientService.GetAll());
+    }
+
     [HttpGet("filter")]
     public async Task<ActionResult<PaginatedList<PatientPreviewDto>>> GetPatientsFiltered(
         [FromQuery] PatientSearchQuery query, [FromQuery] int page = 1)

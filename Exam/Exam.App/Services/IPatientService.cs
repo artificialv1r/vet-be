@@ -7,6 +7,7 @@ namespace Exam.App.Services;
 public interface IPatientService
 {
     Task<PaginatedList<PatientPreviewDto>> GetFilteredPatients(int page, PatientSearchQuery query);
+    Task<List<PatientPreviewDto>> GetAll();
     Task<PatientPreviewDto> Get(int patientId);
     Task<CreatePatientDto> CreateNewPatient(CreatePatientDto patient);
     Task<UpdatePatientDto> UpdatePatient(int id, UpdatePatientDto patient);

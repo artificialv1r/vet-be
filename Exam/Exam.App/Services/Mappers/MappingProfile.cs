@@ -39,10 +39,12 @@ namespace Exam.App.Services.Mappers
 
             CreateMap<Examination, ExaminationPreviewDto>()
                 .ForMember(dest => dest.PatientName, opt => opt.MapFrom(src => src.Patient.Name))
+                .ForMember(dest => dest.PatientId, opt => opt.MapFrom(src => src.Patient.Id))
                 .ForMember(dest => dest.AnimalSpecie, opt => opt.MapFrom(src => src.Patient.AnimalSpecies.Name))
                 .ForMember(dest => dest.Age, opt => opt.MapFrom(src => DateTime.Now.Year - src.Patient.DateOfBirth.Year))
                 .ForMember(dest => dest.VetName, opt => opt.MapFrom(src => src.Vet.User.Name + " " + src.Vet.User
                     .Surname))
+                .ForMember(dest => dest.VetId, opt => opt.MapFrom(src => src.Vet.Id))
                 .ForMember(dest => dest.Status, opt =>opt.MapFrom(src => src.Status.ToString()));
 
             CreateMap<Vet, VetDetailsPreviewDto>()

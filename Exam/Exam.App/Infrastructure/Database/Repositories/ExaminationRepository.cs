@@ -31,6 +31,7 @@ public class ExaminationRepository : IExaminationRepository
     {
         var examination = await _context.Examinations
             .Include(e => e.Vet)
+            .ThenInclude(v => v.User)
             .Include(e => e.Patient)
             .ThenInclude(p => p.AnimalSpecies)
             .Include(e => e.Report)

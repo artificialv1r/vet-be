@@ -43,4 +43,11 @@ public class ExaminationsController : ControllerBase
         string username = User.FindFirstValue(ClaimTypes.NameIdentifier);
         return Ok(await _examinationService.CancelExamination(id, username, examinationDto));
     }
+
+    [Authorize(Roles = "Vet, Assistant")]
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ExaminationPreviewDto>> FetchExamination(int id)
+    {
+        return Ok(await _examinationService.Get(id));
+    }
 }

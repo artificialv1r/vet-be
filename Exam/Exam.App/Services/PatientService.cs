@@ -46,6 +46,12 @@ public class PatientService : IPatientService
         return _mapper.Map<PatientPreviewDto>(patient);
     }
 
+    public async Task<List<PatientPreviewDto>> GetAll()
+    {
+        var patients = await _patientRepository.GetAllPatients();
+        return _mapper.Map<List<PatientPreviewDto>>(patients);
+    }
+
     public async Task<CreatePatientDto> CreateNewPatient(CreatePatientDto dto)
     {
         var owner = await _ownerService.FindByUsernameAsync(dto.OwnerUsername);

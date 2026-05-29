@@ -27,4 +27,10 @@ public class VetsController : ControllerBase
     {
         return _vetService.FindVetById(vetId);
     }
+
+    [HttpGet("q")]
+    public async Task<VetDetailsPreviewDto> FetchByUsername(string username)
+    {
+        return await _vetService.FindByUsername(username);
+    }
 }
